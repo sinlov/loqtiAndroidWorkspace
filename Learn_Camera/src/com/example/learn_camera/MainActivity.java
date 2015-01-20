@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
                 new String[]{
                 "Picture From album",
                 "SufaceCamera",
-                "Take Picture From MediaStore"
+                "Picture From MediaStore"
         });
         mListView.setAdapter(arraryListAdapter);
         mListView.setOnItemClickListener(new OnItemClickListener() {
