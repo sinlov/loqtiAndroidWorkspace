@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Learn_Camera</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_picture_from_album">PictureFromAlbum</string>
+    <string name="title_activity_surface_camera">SurfaceCamera</string>
+    <string name="title_activity_take_picture_from_media_store">TakePictureFromMediaStore</string>
+
+</resources>

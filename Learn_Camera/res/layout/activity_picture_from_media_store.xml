@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.learn_camera.PictureFromMediaStore" >
+
+    <Button
+        android:id="@+id/btn_picturefrommediastore_take"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TakePicture" />
+
+    <Button
+        android:id="@+id/btn_picturefrommediastore_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_picturefrommediastore_take"
+        android:layout_alignBottom="@+id/btn_picturefrommediastore_take"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/btn_picturefrommediastore_take"
+        android:text="ShowPickture" />
+
+    <ImageView
+        android:id="@+id/img_picturefromamediastore_show"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_alignLeft="@+id/btn_picturefrommediastore_take"
+        android:layout_below="@+id/btn_picturefrommediastore_take" />
+
+</RelativeLayout>
