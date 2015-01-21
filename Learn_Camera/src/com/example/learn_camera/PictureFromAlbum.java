@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,7 +28,7 @@ import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 
 public class PictureFromAlbum extends Activity implements OnClickListener{
-//    private final String TAG = "Learn_Camera";
+    //    private final String TAG = "Learn_Camera";
     private final static int TAKE_PIC_FROM_CAMERA_REQUST = 1000;
     private final static int TAKE_PIC_FROM_ALBUM_REQUST = 1001;
     private final static int TAKE_PIC_EXTRA_VIDEO_QUALITY = 10001;
@@ -54,12 +55,15 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
     }
 
     private void initUI() {
+        Toast.makeText(getApplication(), "左侧按钮拍摄并展现" + "\n" +
+                "右侧按钮从相册截图展现" + "\n" +
+                "拍摄照片在SD卡根目录 camera.jpg", Toast.LENGTH_LONG).show();
         mHandler = new SaftHandler(this);
         this.mBtnTackPicture = (Button)findViewById(R.id.btn_picturefromalbum_take);
         this.mBtnAlbumShow = (Button)findViewById(R.id.btn_picturefromalbum_show);
         mBtnAlbumShow.setOnClickListener(this);
         mBtnTackPicture.setOnClickListener(this);
-        
+
         this.mImgAlubmShow = (ImageView)findViewById(R.id.img_picturefromalbum_show);
     }
 
@@ -77,6 +81,9 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplication(), "左侧按钮拍摄并展现" + "\n" +
+                    "右侧按钮从相册截图展现" + "\n" +
+                    "拍摄照片在SD卡根目录 camera.jpg", Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -105,13 +112,13 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
                 takePICFromAlbum.putExtra("outputY", PIC_OUTPUTY);  
                 takePICFromAlbum.putExtra("return-data",true);
                 startActivityForResult(takePICFromAlbum, TAKE_PIC_FROM_ALBUM_REQUST);
-//                if (mBitmap != null) {
-//                    mHandler.obtainMessage(SAFTHANLDER_SAVE_PIC, mBitmap).sendToTarget();
-//                    Toast.makeText(getApplication(), "Take picture success ", Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(getApplication(), "Take picture error", Toast.LENGTH_SHORT).show();
-//                }
-                
+                //                if (mBitmap != null) {
+                //                    mHandler.obtainMessage(SAFTHANLDER_SAVE_PIC, mBitmap).sendToTarget();
+                //                    Toast.makeText(getApplication(), "Take picture success ", Toast.LENGTH_SHORT).show();
+                //                }else {
+                //                    Toast.makeText(getApplication(), "Take picture error", Toast.LENGTH_SHORT).show();
+                //                }
+
                 break;
             default:
                 break;
@@ -120,23 +127,23 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        //        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case TAKE_PIC_FROM_CAMERA_REQUST:
                     String pathName = new File(
                             Environment.getExternalStorageDirectory(),
-                          "camera.jpg").getAbsolutePath();
+                            "camera.jpg").getAbsolutePath();
                     Bitmap tempBitmap = BitmapFactory.decodeFile(pathName);
                     tempBitmap = ThumbnailUtils.extractThumbnail(tempBitmap, BITMAP_WIDTH, BITMAP_HEIGHT);
                     this.mImgAlubmShow.setImageBitmap(tempBitmap);
-                    
-//                    this.mImgAlubmShow.setImageDrawable(Drawable.createFromPath(
-//                            new File(Environment.getExternalStorageDirectory(),
-//                            "camera.jpg").getAbsolutePath()
-//                                )
-//                            );
-                    
+
+                    //                    this.mImgAlubmShow.setImageDrawable(Drawable.createFromPath(
+                    //                            new File(Environment.getExternalStorageDirectory(),
+                    //                            "camera.jpg").getAbsolutePath()
+                    //                                )
+                    //                            );
+
                     System.out.println("data CAMERA -->"+data);  
                     break;
                 case TAKE_PIC_FROM_ALBUM_REQUST:
@@ -145,7 +152,7 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
                         mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, BITMAP_WIDTH, BITMAP_HEIGHT);
                         this.mImgAlubmShow.setImageBitmap(mBitmap);
                     }
-                    
+
                     System.out.println("data ALBUM -->"+data);  
                     break;
                 default:
@@ -153,7 +160,7 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
             }
         }
     }
-    
+
     private static class SaftHandler extends Handler{
         private static WeakReference<PictureFromAlbum> wrActivity;
         /**
@@ -179,12 +186,12 @@ public class PictureFromAlbum extends Activity implements OnClickListener{
                         tempBitmap.compress(CompressFormat.PNG, BITMAP_QUALITY, output);
                         byte[] result = output.toByteArray();
                         File file = new File(Environment.getExternalStorageDirectory(),System.currentTimeMillis()+".jpg");
-                        
+
                         FileOutputStream outputStream = new FileOutputStream(file);
-                            outputStream.write(result);
+                        outputStream.write(result);
                         //              bitmap.compress(CompressFormat.PNG, 100, outputStream);
                         outputStream.close();
-                        
+
                         tempBitmap = ThumbnailUtils.extractThumbnail(tempBitmap, BITMAP_WIDTH, BITMAP_HEIGHT);
                         wrActivity.get().mImgAlubmShow.setImageBitmap(tempBitmap);
                         tempBitmap.recycle();

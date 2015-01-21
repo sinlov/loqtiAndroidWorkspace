@@ -42,6 +42,11 @@ public class PictureFromMediaStore extends Activity implements OnClickListener{
         initUI();
     }
     private void initUI() {
+        Toast.makeText(getApplication(), "左侧按钮拍摄" + "\n" +
+                "右侧按钮展现拍摄" + "\n" +
+                "拍摄照片在SD卡根目录： 当前时间整数.jpg" + "\n"+ 
+                "使用默认相机参数，效果很很垃圾",
+                Toast.LENGTH_LONG).show();
         mHandler = new SaftHandler(this);
         this.mBtnTackPicture = (Button)findViewById(R.id.btn_picturefrommediastore_take);
         this.mBtnAlbumShow = (Button)findViewById(R.id.btn_picturefrommediastore_show);
@@ -64,6 +69,11 @@ public class PictureFromMediaStore extends Activity implements OnClickListener{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplication(), "左侧按钮拍摄" + "\n" +
+                    "右侧按钮展现拍摄" + "\n" +
+                    "拍摄照片在SD卡根目录： 当前时间整数.jpg" + "\n"+ 
+                    "使用默认相机参数，效果很很垃圾",
+                    Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

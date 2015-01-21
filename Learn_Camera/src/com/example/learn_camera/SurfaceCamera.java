@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,10 +59,12 @@ public class SurfaceCamera extends Activity {
      * @return: void      
      * @throws
      */
-    @SuppressWarnings({
-            "deprecation", "unused"
-    })
     private void initUI() {
+        Toast.makeText(getApplication(), "点击画面对焦" + "\n" +
+                "音量减少按钮拍摄" + "\n" +
+                "拍摄照片在SD卡根目录： 当前时间整数.jpg" + "\n"+ 
+                "使用默认相机参数，效果很很垃圾",
+                Toast.LENGTH_LONG).show();
         this.surface_caream = (SurfaceView)findViewById(R.id.surface_surfacecamera_camera);
         this.mMaskSurfaceViewwg = (MaskSurfaceViewg)findViewById(R.id.masksurface_surfacecamera_camera);
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);//得到窗口管理器
@@ -122,6 +125,11 @@ public class SurfaceCamera extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplication(), "点击画面对焦" + "\n" +
+                    "音量减少按钮拍摄" + "\n" +
+                    "拍摄照片在SD卡根目录： 当前时间整数.jpg" + "\n"+ 
+                    "使用默认相机参数，效果很很垃圾",
+                    Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
