@@ -46,7 +46,8 @@ public class JsonDefaultURLTest {
 		try {
 			url = new URL(urlString);
 			mhttpURLConnection = (HttpURLConnection) url.openConnection();
-			fin = new FlushedInputStream(new BufferedInputStream(mhttpURLConnection.getInputStream(), IO_BUFFER_SIZE));  
+			fin = new FlushedInputStream(new BufferedInputStream(
+					mhttpURLConnection.getInputStream(), IO_BUFFER_SIZE));
 			byte[] buff = new byte[1024];
 			int length = 0;
 			baos = new ByteArrayOutputStream();
@@ -54,7 +55,7 @@ public class JsonDefaultURLTest {
 				baos.write(buff, 0, length);
 			}
 			outputString = new String(baos.toByteArray(), "UTF-8");
-			System.out.println("getNetResult成功: "+outputString);
+			System.out.println("getNetResult成功: " + outputString);
 		} catch (Exception e) {
 			System.out.println("Error in download - " + urlString + " : " + e);
 		} finally {
@@ -110,31 +111,32 @@ public class JsonDefaultURLTest {
 		}
 		return false;
 	}
-	
-	public class FlushedInputStream extends FilterInputStream {  
-		  
-        public FlushedInputStream(InputStream inputStream) {  
-            super(inputStream);  
-        }  
 
-        @Override  
-        public long skip(long n) throws IOException {  
-            long totalBytesSkipped = 0L;  
-            while (totalBytesSkipped < n) {  
-                long bytesSkipped = in.skip(n - totalBytesSkipped);  
-                if (bytesSkipped == 0L) {  
-                    int by_te = read();  
-                    if (by_te < 0) {  
-                        break; // we reached EOF  
-                    } else {  
-                        bytesSkipped = 1; // we read one byte  
-                    }  
-                }  
-                totalBytesSkipped += bytesSkipped;  
-            }  
-            return totalBytesSkipped;  
-        }  
-    }
+	public class FlushedInputStream extends FilterInputStream {
+
+		public FlushedInputStream(InputStream inputStream) {
+			super(inputStream);
+		}
+
+		@Override
+		public long skip(long n) throws IOException {
+			long totalBytesSkipped = 0L;
+			while (totalBytesSkipped < n) {
+				long bytesSkipped = in.skip(n - totalBytesSkipped);
+				if (bytesSkipped == 0L) {
+					int by_te = read();
+					if (by_te < 0) {
+						break; // we reached EOF
+					} else {
+						bytesSkipped = 1; // we read one byte
+					}
+				}
+				totalBytesSkipped += bytesSkipped;
+			}
+			return totalBytesSkipped;
+		}
+	}
+
 	public static void main(String[] args) {
 		JsonDefaultURLTest test = new JsonDefaultURLTest();
 		String url = "http://127.0.0.1:8008/index_json.jsp";
