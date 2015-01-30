@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2012, Incito Corporation, All Rights Reserved
  */
-package cn.com.incito.bitmap_master;
+package cn.com.incito.bitmaptools;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
