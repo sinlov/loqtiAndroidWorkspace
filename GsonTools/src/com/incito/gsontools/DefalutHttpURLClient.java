@@ -21,10 +21,10 @@ import java.io.OutputStream;
  * 
  */
 public interface DefalutHttpURLClient {
-	public boolean downloadToLocalJsonStringByUrl(String urlString,
-			String outputString);
-	public boolean downloadToLocalStreamByUrl(String urlString,
-			OutputStream outputStream);
-	public boolean uploadToServerJsonString(String urlString, String jsonString);
-	public boolean uploadToServerSteam(String urlString, InputStream inputStream);
+	public boolean downloadToLocalJsonStringByUrl(String url,
+			String output);
+	public boolean downloadToLocalStreamByUrl(String url,
+			OutputStream output);
+	public boolean uploadToServerJsonString(String url, String jsonString);
+	public boolean uploadToServerSteam(String url, InputStream input);
 }
