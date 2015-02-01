@@ -1,10 +1,8 @@
 
 package cn.com.incito.bitmap_master;
 
-import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
-import com.android.volley.RequestQueue.RequestFilter;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.Request;
@@ -90,6 +88,7 @@ public class VolleyTestActivity extends Activity implements OnClickListener{
         };
     }
     
+    @SuppressWarnings("rawtypes")
     public void addToRequestQueue(Request req, String tag) { 
         // set the default tag if tag is empty 
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag); 
@@ -99,7 +98,7 @@ public class VolleyTestActivity extends Activity implements OnClickListener{
         getRequestQueue().add(req); 
     } 
  
-     
+    @SuppressWarnings("rawtypes")
     public void addToRequestQueue(Request req) { 
         // set the default tag if tag is empty 
         req.setTag(TAG); 

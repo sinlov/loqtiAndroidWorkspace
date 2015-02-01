@@ -7,9 +7,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -28,16 +26,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 
+@SuppressLint("SdCardPath")
 public class CompressImageActivity extends Activity implements OnClickListener{
     private static final String TAG = "CompressImageActivity";
     private static final int MSG_SAVE_IMAGE = 1000;
     private static final int MSG_COMPRESS_IMAGELOADER = 1001;
+    @SuppressWarnings("unused")
     private static final int BITMAP_QUALITY = 100;
     private String sdpath = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Bitmap bitmapCompressTaget;
@@ -171,6 +170,7 @@ public class CompressImageActivity extends Activity implements OnClickListener{
 
     }
 
+    @SuppressWarnings("deprecation")
     public void initImageLoader() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
 
