@@ -1,7 +1,9 @@
 
 package cn.com.incito.bitmap_master;
 
-import android.app.Activity;
+import cn.com.incito.bitmap_master.app.BaseActivity;
+import cn.com.incito.lighthttpclient.DefalutLightHttpClient;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LightHttpClientActivity extends Activity implements OnClickListener{
+public class LightHttpClientActivity extends BaseActivity implements OnClickListener{
     private final static String TAG = "LightHttpClientActivity ";
     
     private Button btn_jsonGet;
@@ -20,7 +22,6 @@ public class LightHttpClientActivity extends Activity implements OnClickListener
     private Button btn_jsonBitmapPost;
     private ImageView img_showBitmap;
     private TextView tv_showJson;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

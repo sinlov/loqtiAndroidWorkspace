@@ -1,9 +1,13 @@
 
 package cn.com.incito.bitmap_master;
 
-import android.app.Activity;
+import cn.com.incito.bitmap_master.app.BaseActivity;
+import cn.com.incito.bitmap_master.app.MyApplication;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements OnItemClickListener{
+public class MainActivity extends BaseActivity implements OnItemClickListener{
+    private long closeTime;
     private ListView mListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,5 +67,18 @@ public class MainActivity extends Activity implements OnItemClickListener{
             default:
                 break;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            
+            if ((SystemClock.currentThreadTimeMillis() - closeTime) > 3000) {
+                MyApplication.getInstance().quitApp();
+                return true;
+            }else {
+                closeTime = SystemClock.currentThreadTimeMillis();
+            }
+        }
+        return false;
     }
 }

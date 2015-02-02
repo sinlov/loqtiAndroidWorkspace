@@ -1,14 +1,16 @@
 
 package cn.com.incito.bitmap_master;
 
+import cn.com.incito.bitmap_master.app.BaseActivity;
+
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -26,13 +28,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 
 @SuppressLint("SdCardPath")
-public class CompressImageActivity extends Activity implements OnClickListener{
+public class CompressImageActivity extends BaseActivity implements OnClickListener{
     private static final String TAG = "CompressImageActivity";
     private static final int MSG_SAVE_IMAGE = 1000;
     private static final int MSG_COMPRESS_IMAGELOADER = 1001;

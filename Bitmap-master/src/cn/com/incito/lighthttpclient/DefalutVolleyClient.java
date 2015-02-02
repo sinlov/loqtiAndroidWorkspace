@@ -32,6 +32,9 @@ public class DefalutVolleyClient extends Volley{
         return instance;
     }
     public static RequestQueue getRequestQueue(){
+        if (mRequsetQueue == null) {
+            throw new NullPointerException();
+        }
         return mRequsetQueue;
     }
 }

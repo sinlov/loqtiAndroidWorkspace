@@ -1,18 +1,19 @@
 
 package cn.com.incito.bitmap_master;
 
+import cn.com.incito.bitmap_master.app.BaseActivity;
+
 import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.Request;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,7 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VolleyTestActivity extends Activity implements OnClickListener{
+public class VolleyTestActivity extends BaseActivity implements OnClickListener{
     private final static String TAG = "VolleyTestActivity";
     
     private TextView tv_result_show;

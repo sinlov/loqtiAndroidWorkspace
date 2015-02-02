@@ -34,7 +34,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
     private static JsonObjectRequest jsonPost;
     private static ImageRequest imageRequest;
     
-    private DefalutLightHttpClient (){
+    public DefalutLightHttpClient (){
     }
     abstract void setListener(Listener<?> listener);
     abstract void setErrorListener(DefalutErrorListener errorListener);
