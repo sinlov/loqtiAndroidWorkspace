@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_compress_image">CompressImageActivity</string>
     <string name="title_activity_volley_test">VolleyTest</string>
+    <string name="title_activity_light_http_client">LightHttpClientActivity</string>
 
 </resources>

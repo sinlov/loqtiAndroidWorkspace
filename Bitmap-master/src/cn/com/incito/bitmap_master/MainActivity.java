@@ -21,7 +21,8 @@ public class MainActivity extends Activity implements OnItemClickListener{
         this.mListView = (ListView)findViewById(R.id.lv_main_choose);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[]{
                 "CompressImageActiity",
-                "Volley Test"
+                "Volley Test",
+                "Light Http Client Test"
         });
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
@@ -54,6 +55,10 @@ public class MainActivity extends Activity implements OnItemClickListener{
                 break;
             case 1:
                 this.startActivity(new Intent(this, VolleyTestActivity.class));
+                break;
+            case 2:
+                this.startActivity(new Intent(this, LightHttpClientActivity.class));
+                break;
             default:
                 break;
         }

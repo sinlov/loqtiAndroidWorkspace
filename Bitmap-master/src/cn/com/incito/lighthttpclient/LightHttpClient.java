@@ -1,8 +1,7 @@
 /*
  * Copyright (c) 2012, Incito Corporation, All Rights Reserved
  */
-package cn.com.incito.bitmaptools;
-
+package cn.com.incito.lighthttpclient;
 
 /**
  * @description 
@@ -10,6 +9,6 @@ package cn.com.incito.bitmaptools;
  * @createDate Feb 1, 2015
  * @version  1.0
  */
-public enum LightHttpInfoEnum {
-    
+public interface LightHttpClient{
+
 }

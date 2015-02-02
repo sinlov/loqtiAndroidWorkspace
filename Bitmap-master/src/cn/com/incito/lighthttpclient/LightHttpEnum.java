@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2012, Incito Corporation, All Rights Reserved
  */
-package cn.com.incito.bitmaptools;
+package cn.com.incito.lighthttpclient;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,7 +18,13 @@ public enum LightHttpEnum {
     TYPE_JSON_GET,
     TYPE_JSON_POST,
     TYPE_BITMAP_DOWN,
-    TYPE_BITMAP_UPLOAD
+    TYPE_BITMAP_UPLOAD,
+    MSG_ERROR_TIMEOUT,
+    MSG_ERROR_NOCONNECTION,
+    MSG_ERROR_PARSE,
+    MSG_ERROR_SERVER,
+    MSG_ERROR_AUTHFAILURE,
+    MSG_ERROR_NETWORK
     ;
     private static final int START_VALUE = 1000;
     private static Map<Integer, LightHttpEnum> ss = new TreeMap<Integer, LightHttpEnum>();

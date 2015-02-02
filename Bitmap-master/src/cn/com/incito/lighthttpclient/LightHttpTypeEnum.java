@@ -1,5 +1,5 @@
 
-package cn.com.incito.bitmaptools;
+package cn.com.incito.lighthttpclient;
 
 public enum LightHttpTypeEnum {
     NULL(LightHttpEnum.NULL),

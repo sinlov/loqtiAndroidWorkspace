@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2012, Incito Corporation, All Rights Reserved
  */
-package cn.com.incito.bitmaptools;
+package cn.com.incito.lighthttpclient;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;

@@ -1,9 +1,8 @@
 /*
  * Copyright (c) 2012, Incito Corporation, All Rights Reserved
  */
-package cn.com.incito.bitmaptools;
+package cn.com.incito.lighthttpclient;
 
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -28,7 +27,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
     
     private static DefalutLightHttpClient intensace;
     private static Listener<?> mListener;
-    private static ErrorListener mErrorListener;
+    private static DefalutErrorListener mDefalutErrorListener;
     
     private static StringRequest jsonRequest;
     private static JsonObjectRequest jsonGet;
@@ -38,7 +37,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
     private DefalutLightHttpClient (){
     }
     abstract void setListener(Listener<?> listener);
-    abstract void setErrorListener(ErrorListener errorListener);
+    abstract void setErrorListener(DefalutErrorListener errorListener);
 
     private String url;
     private HashMap<String, String> params;
@@ -62,8 +61,8 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
                 }
                 
                 @Override
-                void setErrorListener(ErrorListener errorListener) {
-                    mErrorListener = errorListener;
+                void setErrorListener(DefalutErrorListener errorListener) {
+                    mDefalutErrorListener = errorListener;
                 }
             };
         }
@@ -125,7 +124,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
         try {
             @SuppressWarnings("unchecked")
             Listener<String> lisJson = (Listener<String>) mListener;
-            jsonRequest = new StringRequest(url, lisJson, mErrorListener);
+            jsonRequest = new StringRequest(url, lisJson, mDefalutErrorListener);
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger("Error", "From URL: " + url + " request: is not cast to String");
@@ -136,7 +135,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
         try {
             @SuppressWarnings("unchecked")
             Listener<JSONObject> lisJson = (Listener<JSONObject>) mListener;
-            jsonGet = new JsonObjectRequest(url, null, lisJson, mErrorListener);
+            jsonGet = new JsonObjectRequest(url, null, lisJson, mDefalutErrorListener);
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger("Error", "From URL: " + url + " request: is not cast to JSON Object");
@@ -147,7 +146,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
         try {
             @SuppressWarnings("unchecked")
             Listener<JSONObject> lisJson = (Listener<JSONObject>) mListener;
-            jsonPost = new JsonObjectRequest(url, new JSONObject(params), lisJson, mErrorListener);
+            jsonPost = new JsonObjectRequest(url, new JSONObject(params), lisJson, mDefalutErrorListener);
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger("Error", "From URL: " + url + " request: is not cast to JSON Object");
@@ -157,7 +156,7 @@ public abstract class DefalutLightHttpClient implements LightHttpClient{
         try {
             @SuppressWarnings("unchecked")
             Listener<Bitmap> lisJson = (Listener<Bitmap>) mListener;
-            imageRequest = new ImageRequest(url, lisJson, maxWidth, maxHeight, decodeConfig, mErrorListener);
+            imageRequest = new ImageRequest(url, lisJson, maxWidth, maxHeight, decodeConfig, mDefalutErrorListener);
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger("Error", "From URL: " + url + " request: is not cast to Bitmap Object");
