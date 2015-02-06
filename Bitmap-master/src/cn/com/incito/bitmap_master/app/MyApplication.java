@@ -52,17 +52,21 @@ public class MyApplication extends Application {
        qequestQueue = DefalutVolleyClient.getRequestQueue();
     }
  public void quitApp(){
-        try {
-            for (BaseActivity baseActivity : list) {
-                if (baseActivity != null) {
-                    baseActivity.finish();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            System.exit(0);//normal exit
-            Log.v(TAG, "close app");
-        }
-    }
+     try {
+         if (qequestQueue != null) {
+             qequestQueue.cancelAll(TAG);
+         }
+         for (BaseActivity baseActivity : list) {
+             if (baseActivity != null) {
+                 baseActivity.finish();
+             }
+         }
+     } catch (Exception e) {
+         e.printStackTrace();
+         Log.e(TAG, "close error" + e.toString());
+     }finally{
+         System.exit(0);//normal exit
+         Log.i(TAG, "close app");
+     }
+ }
 }

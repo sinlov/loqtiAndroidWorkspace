@@ -3,6 +3,7 @@ package cn.com.incito.bitmap_master;
 
 import cn.com.incito.bitmap_master.app.BaseActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,11 +26,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VolleyTestActivity extends BaseActivity implements OnClickListener{
     private final static String TAG = "VolleyTestActivity";
     
     private TextView tv_result_show;
     private Button btn_getJson;
+    private Button btn_postJson;
     
     private RequestQueue mRequestQueue;
 //    private RequestFilter mRequsetFilter;
@@ -129,6 +134,8 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
         this.tv_result_show = (TextView)findViewById(R.id.tv_volleytest_resultshow);
         this.btn_getJson = (Button)findViewById(R.id.btn_volleytest_getJson);
         btn_getJson.setOnClickListener(this);
+        this.btn_postJson = (Button)findViewById(R.id.btn_volleytest_PostJson);
+        btn_postJson.setOnClickListener(this);
     }
 
     @Override
@@ -159,7 +166,29 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                 mStringRequset = new StringRequest(url, volleyStringListener, volleyErrorListener);
                 mRequestQueue.add(mStringRequset);
                 break;
+            case R.id.btn_volleytest_PostJson:
+                String urlapi = "http://192.168.30.50/gcxz/index.php?app=interface&act=login";
+                StringRequest sr = new StringRequest(Request.Method.POST, urlapi, volleyStringListener, volleyErrorListener)
+                {
 
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<String, String>();
+                        params.put("Content-Type","application/x-www-form-urlencoded");
+                        return params;
+                    }
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<String, String>();
+                        
+                        params.put("user","xucaibing");
+                        params.put("password","111111");
+                        return params;
+                    }};
+//                    Toast.makeText(getApplication(), sr.getUrl(), Toast.LENGTH_SHORT).show();
+                    mRequestQueue.add(sr);
+                break;
             default:
                 break;
         }
