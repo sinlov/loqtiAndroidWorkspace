@@ -15,7 +15,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -23,25 +27,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class VolleyTestActivity extends BaseActivity implements OnClickListener{
     private final static String TAG = "VolleyTestActivity";
-    
+
     private TextView tv_result_show;
     private Button btn_getJson;
     private Button btn_postJson;
-    
+    private Button btn_imagePost;
+    private ProgressBar mPgBar;
+    private TextView mTvProgress;
+
+    private MyTask mTask;
     private RequestQueue mRequestQueue;
-//    private RequestFilter mRequsetFilter;
+    //    private RequestFilter mRequsetFilter;
     private StringRequest mStringRequset;
     private Listener<String> volleyStringListener;
     private ErrorListener volleyErrorListener;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +65,8 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
         initUI();
         initVolley();
     }
-    
-    
+
+
 
     @Override
     protected void onStop() {
@@ -87,41 +103,41 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                     if (error instanceof NoConnectionError) {
                         Toast.makeText(getApplication(), "Error : " + "NoConnectionError", Toast.LENGTH_LONG).show();
                         mRequestQueue.cancelAll(getApplication());
-//                        Toast.makeText(getApplication(), "Error statusCode: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+                        //                        Toast.makeText(getApplication(), "Error statusCode: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         };
     }
-    
+
     @SuppressWarnings("rawtypes")
     public void addToRequestQueue(Request req, String tag) { 
         // set the default tag if tag is empty 
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag); 
- 
+
         VolleyLog.d("Adding request to queue: %s", req.getUrl()); 
- 
+
         getRequestQueue().add(req); 
     } 
- 
+
     @SuppressWarnings("rawtypes")
     public void addToRequestQueue(Request req) { 
         // set the default tag if tag is empty 
         req.setTag(TAG); 
- 
+
         getRequestQueue().add(req); 
     } 
-    
+
     public RequestQueue getRequestQueue() { 
         // lazy initialize the request queue, the queue instance will be 
         // created when it is accessed for the first time 
         if (mRequestQueue == null) { 
             mRequestQueue = Volley.newRequestQueue(getApplicationContext()); 
         } 
- 
+
         return mRequestQueue; 
     }
-    
+
     public void cancelPendingRequests(Object tag) { 
         if (mRequestQueue != null) { 
             mRequestQueue.cancelAll(tag); 
@@ -136,6 +152,8 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
         btn_getJson.setOnClickListener(this);
         this.btn_postJson = (Button)findViewById(R.id.btn_volleytest_PostJson);
         btn_postJson.setOnClickListener(this);
+        this.btn_imagePost = (Button)findViewById(R.id.btn_volleytest_imagepost);
+        btn_imagePost.setOnClickListener(this);
     }
 
     @Override
@@ -181,16 +199,138 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String,String> params = new HashMap<String, String>();
-                        
+
                         params.put("user","xucaibing");
                         params.put("password","111111");
                         return params;
                     }};
-//                    Toast.makeText(getApplication(), sr.getUrl(), Toast.LENGTH_SHORT).show();
+                    //                    Toast.makeText(getApplication(), sr.getUrl(), Toast.LENGTH_SHORT).show();
                     mRequestQueue.add(sr);
+                    break;
+            case R.id.btn_volleytest_imagepost:
+                String filePath = Environment.getExternalStorageDirectory().getPath() +
+                "/image/C_guanxi.jpg";
+                String filePath_sec = Environment.getExternalStorageDirectory().getPath() +
+                        "/image/G_degang.jpg";
+                String urlimagapi = "http://192.168.30.50/gcxz/?app=interface&act=addGood";
+                View upView = getLayoutInflater().inflate(R.layout.filebrowser_uploading, null);
+                mPgBar = (ProgressBar)upView.findViewById(R.id.pb_filebrowser_uploading);
+                mTvProgress = (TextView)upView.findViewById(R.id.tv_filebrowser_uploading);
+                new AlertDialog.Builder(VolleyTestActivity.this).setTitle("上传进度").setView(upView).create().show();
+                mTask = new MyTask();
+                mTask.execute(urlimagapi, filePath, filePath_sec);
                 break;
             default:
                 break;
+        }
+    }
+
+    private class MyTask extends AsyncTask<String, Integer, String>{
+
+        @Override
+        protected void onPostExecute(String result) {
+            mTvProgress.setText(result);    
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mTvProgress.setText("loading...");
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            mPgBar.setProgress(values[0]);
+            mTvProgress.setText("loading..." + values[0] + "%");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String uploadUrl = params[0];
+            String filePath = params[1];
+            String filePath_sec = params[2];
+            String end = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "******";
+            try {
+                URL url = new URL(uploadUrl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url
+                        .openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setUseCaches(false);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setConnectTimeout(6*1000);
+                httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+                httpURLConnection.setRequestProperty("Charset", "UTF-8");
+                httpURLConnection.setRequestProperty("Content-Type",
+                        "multipart/form-data;boundary=" + boundary);
+
+                /**
+                 * 这里重点注意： name里面的值为服务端需要key 只有这个key 才可以得到对应的文件
+                 * filename是文件的名字，包含后缀名的 比如:abc.png
+                 */
+                DataOutputStream dos = new DataOutputStream(httpURLConnection
+                        .getOutputStream());
+                dos.writeBytes(twoHyphens + boundary + end);
+                dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
+                        + filePath.substring(filePath.lastIndexOf("/") + 1)
+                        + "\"" + end);
+                dos.writeBytes(end);
+
+                FileInputStream fis = new FileInputStream(filePath);
+                long total = fis.available();
+                String totalstr = String.valueOf(total);
+                Log.d("文件名", filePath);
+                Log.d("文件大小", totalstr);
+                byte[] buffer = new byte[100000]; // 8k
+                int count = 0;
+                int length = 0;
+                while ((count = fis.read(buffer)) != -1) {
+                    dos.write(buffer, 0, count);
+                    length += count;
+                    publishProgress((int) ((length / (float) total) * 100));
+                    //为了演示进度,休眠500毫秒
+                    Thread.sleep(500);
+                } 
+                
+                dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
+                        + filePath_sec.substring(filePath_sec.lastIndexOf("/") + 2)
+                        + "\"" + end);
+                
+                FileInputStream fis_sec = new FileInputStream(filePath_sec);
+                long total_sec = fis_sec.available();
+                String totalstr_sec = String.valueOf(total_sec);
+                Log.d("文件名", filePath_sec);
+                Log.d("文件大小", totalstr_sec);
+                byte[] buffer_sec = new byte[100000]; // 8k
+                int count_sec = 0;
+                int length_sec = 0;
+                while ((count_sec = fis_sec.read(buffer_sec)) != -1) {
+                    dos.write(buffer_sec, 0, count_sec);
+                    length_sec += count;
+                    publishProgress((int) ((length_sec / (float) total_sec) * 100));
+                    //为了演示进度,休眠500毫秒
+                    Thread.sleep(500);
+                } 
+
+                fis.close();
+                fis_sec.close();
+                dos.writeBytes(end);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + end);
+                dos.flush();
+
+                InputStream is = httpURLConnection.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is, "utf-8");
+                BufferedReader br = new BufferedReader(isr);
+                @SuppressWarnings("unused")
+                String result = br.readLine();
+                dos.close();
+                is.close();
+                return "上传成功";
+            }catch (Exception e) {
+                e.printStackTrace();
+                return "上传失败";
+            }   
         }
     }
 }

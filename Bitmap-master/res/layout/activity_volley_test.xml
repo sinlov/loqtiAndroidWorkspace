@@ -9,10 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cn.com.incito.bitmap_master.VolleyTestActivity" >
 
-    <TextView
-        android:id="@+id/tv_volleytest_resultshow"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="120dp" >
+
+        <TextView
+            android:id="@+id/tv_volleytest_resultshow"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_volleytest_getJson"
@@ -25,5 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Post Json" />
+
+    <Button
+        android:id="@+id/btn_volleytest_imagepost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post Image" />
 
 </LinearLayout>
