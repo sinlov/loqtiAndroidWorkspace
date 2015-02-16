@@ -37,15 +37,15 @@ public class JsonTest {
 					Gson gson = new Gson();
 					bean = gson.fromJson(result, JsonBean.class);
 
-					for (DataBean dataBean : bean.getData()) {
-						String urlPath = dataBean.getImg_name_zh();
-						if (urlPath != null) {
-//							Bitmap bitmap = MainActivity.this.createBitmapByUrl(urlPath, img_width, img_height);
-							list.add(urlPath);
-						}else{
-
-						}
-					}
+//					for (DataBean dataBean : bean.getData()) {
+//						String urlPath = dataBean.getImg_name_zh();
+//						if (urlPath != null) {
+////							Bitmap bitmap = MainActivity.this.createBitmapByUrl(urlPath, img_width, img_height);
+//							list.add(urlPath);
+//						}else{
+//
+//						}
+//					}
 					System.out.println("网络通讯成功  list: " + list);
 				}else{
 					System.out.println( "网络通讯失败  " + index);

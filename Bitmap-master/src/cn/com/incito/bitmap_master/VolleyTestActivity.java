@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -20,13 +21,16 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +54,10 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
     private Button btn_imagePost;
     private ProgressBar mPgBar;
     private TextView mTvProgress;
+    private EditText mEtIPAddress;
+    
+    private String IpAddress = null;
+    private String urlapi = "";
 
     private MyTask mTask;
     private RequestQueue mRequestQueue;
@@ -83,7 +91,7 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
             public void onResponse(String response) {
                 // TODO Auto-generated method stub
                 Log.d(TAG + " response", response);
-                tv_result_show.setText(response);
+                tv_result_show.setText("urlapi: " + urlapi + "\n" + response);
             }
         };
         this.volleyErrorListener = new ErrorListener() {
@@ -99,12 +107,17 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                         Toast.makeText(getApplication(), "Error : " + "TimeoutError", Toast.LENGTH_LONG).show();
                         mRequestQueue.cancelAll(getApplication());
                     }
+                    if (error instanceof ServerError) {
+                        Toast.makeText(getApplication(), "Error : " + "ServerError", Toast.LENGTH_LONG).show();
+                        mRequestQueue.cancelAll(getApplication());
+                    }
                 }else {
                     if (error instanceof NoConnectionError) {
                         Toast.makeText(getApplication(), "Error : " + "NoConnectionError", Toast.LENGTH_LONG).show();
                         mRequestQueue.cancelAll(getApplication());
                         //                        Toast.makeText(getApplication(), "Error statusCode: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
                     }
+                    
                 }
             }
         };
@@ -147,6 +160,24 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
 
 
     private void initUI() {
+        this.mEtIPAddress = (EditText)findViewById(R.id.et_volleytest_ip);
+        mEtIPAddress.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                IpAddress = s.toString().trim();
+            }
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                IpAddress = s.toString().trim();
+            }
+        });
         this.tv_result_show = (TextView)findViewById(R.id.tv_volleytest_resultshow);
         this.btn_getJson = (Button)findViewById(R.id.btn_volleytest_getJson);
         btn_getJson.setOnClickListener(this);
@@ -185,7 +216,12 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                 mRequestQueue.add(mStringRequset);
                 break;
             case R.id.btn_volleytest_PostJson:
-                String urlapi = "http://192.168.30.50/gcxz/index.php?app=interface&act=login";
+                String temp = "192.168.30.50" ;
+                if (null != IpAddress) {
+                    temp = IpAddress;
+                }
+//                urlapi = "http://" + temp + "/android/app/login";
+                urlapi = "http://192.168.50.100:8080/android/app/login";
                 StringRequest sr = new StringRequest(Request.Method.POST, urlapi, volleyStringListener, volleyErrorListener)
                 {
 
@@ -200,10 +236,11 @@ public class VolleyTestActivity extends BaseActivity implements OnClickListener{
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String,String> params = new HashMap<String, String>();
 
-                        params.put("user","xucaibing");
-                        params.put("password","111111");
+                        params.put("mac","ccd29bf5342b");
                         return params;
-                    }};
+                    }
+                    
+                };
                     //                    Toast.makeText(getApplication(), sr.getUrl(), Toast.LENGTH_SHORT).show();
                     mRequestQueue.add(sr);
                     break;

@@ -19,6 +19,12 @@
             android:layout_height="20dp" />
     </ScrollView>
 
+    <EditText
+        android:id="@+id/et_volleytest_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true" />
+
     <Button
         android:id="@+id/btn_volleytest_getJson"
         android:layout_width="wrap_content"
